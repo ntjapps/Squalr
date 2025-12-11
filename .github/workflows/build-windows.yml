@@ -64,10 +64,6 @@ jobs:
     - name: Build squalr for Windows
       run: cargo build --release --target x86_64-pc-windows-gnu -p squalr
       
-    - name: Build squalr-gui for Windows
-      run: cargo build --release --target x86_64-pc-windows-gnu -p squalr-gui
-      continue-on-error: true
-      
     - name: Build squalr-installer for Windows
       run: cargo build --release --target x86_64-pc-windows-gnu -p squalr-installer
       continue-on-error: true
@@ -83,9 +79,6 @@ jobs:
         if [ -f target/x86_64-pc-windows-gnu/release/squalr.exe ]; then
           cp target/x86_64-pc-windows-gnu/release/squalr.exe artifacts/
         fi
-        if [ -f target/x86_64-pc-windows-gnu/release/squalr-gui.exe ]; then
-          cp target/x86_64-pc-windows-gnu/release/squalr-gui.exe artifacts/
-        fi
         if [ -f target/x86_64-pc-windows-gnu/release/squalr-installer.exe ]; then
           cp target/x86_64-pc-windows-gnu/release/squalr-installer.exe artifacts/
         fi
@@ -100,5 +93,5 @@ jobs:
       with:
         name: squalr-windows-x86_64
         path: artifacts/*.exe
-        if-no-files-found: warn
+        if-no-files-found: error
         retention-days: 90
