@@ -1,0 +1,92 @@
+name: Build Windows Executable
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Install Rust toolchain
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        targets: x86_64-pc-windows-gnu
+        
+    - name: Install cross-compilation dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y mingw-w64
+        
+    - name: Cache cargo registry
+      uses: actions/cache@v4
+      with:
+        path: ~/.cargo/registry
+        key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-cargo-registry-
+          
+    - name: Cache cargo index
+      uses: actions/cache@v4
+      with:
+        path: ~/.cargo/git
+        key: ${{ runner.os }}-cargo-git-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-cargo-git-
+          
+    - name: Cache target directory
+      uses: actions/cache@v4
+      with:
+        path: target
+        key: ${{ runner.os }}-target-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-target-
+    
+    - name: Build squalr for Windows
+      run: cargo build --release --target x86_64-pc-windows-gnu -p squalr
+      
+    - name: Build squalr-gui for Windows
+      run: cargo build --release --target x86_64-pc-windows-gnu -p squalr-gui
+      continue-on-error: true
+      
+    - name: Build squalr-installer for Windows
+      run: cargo build --release --target x86_64-pc-windows-gnu -p squalr-installer
+      continue-on-error: true
+      
+    - name: Build squalr-cli for Windows
+      run: cargo build --release --target x86_64-pc-windows-gnu -p squalr-cli
+      continue-on-error: true
+      
+    - name: Prepare artifacts
+      run: |
+        mkdir -p artifacts
+        # Copy main executables if they exist
+        if [ -f target/x86_64-pc-windows-gnu/release/squalr.exe ]; then
+          cp target/x86_64-pc-windows-gnu/release/squalr.exe artifacts/
+        fi
+        if [ -f target/x86_64-pc-windows-gnu/release/squalr-gui.exe ]; then
+          cp target/x86_64-pc-windows-gnu/release/squalr-gui.exe artifacts/
+        fi
+        if [ -f target/x86_64-pc-windows-gnu/release/squalr-installer.exe ]; then
+          cp target/x86_64-pc-windows-gnu/release/squalr-installer.exe artifacts/
+        fi
+        if [ -f target/x86_64-pc-windows-gnu/release/squalr-cli.exe ]; then
+          cp target/x86_64-pc-windows-gnu/release/squalr-cli.exe artifacts/
+        fi
+        # List what was built
+        ls -lh artifacts/
+        
+    - name: Upload Windows executables
+      uses: actions/upload-artifact@v4
+      with:
+        name: squalr-windows-x86_64
+        path: artifacts/*.exe
+        if-no-files-found: warn
+        retention-days: 90
