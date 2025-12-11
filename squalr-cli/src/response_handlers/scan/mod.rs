@@ -14,6 +14,12 @@ pub fn handle_scan_response(cmd: ScanResponse) {
         ScanResponse::Reset { .. } => handle_scan_reset_response(cmd),
         ScanResponse::New { .. } => handle_scan_new_response(cmd),
         ScanResponse::CollectValues { .. } => handle_scan_collect_values_response(cmd),
-        ScanResponse::Execute { .. } => handle_scan_execute_response(cmd),
+        ScanResponse::ElementScan { .. } => handle_scan_execute_response(cmd),
+        ScanResponse::PointerScan { .. } => {
+            // TODO: Implement pointer scan response handling
+        }
+        ScanResponse::StructScan { .. } => {
+            // TODO: Implement struct scan response handling
+        }
     }
 }

@@ -1,5 +1,5 @@
-use squalr_engine_api::commands::settings::list::settings_list_response::SettingsListResponse;
+use squalr_engine_api::commands::settings::memory::list::memory_settings_list_response::MemorySettingsListResponse;
 
-pub fn handle_settings_list_response(settings_list_response: SettingsListResponse) {
-    // JIRA - not implemented
+pub fn handle_settings_list_response(settings_list_response: MemorySettingsListResponse) {
+    // TODO - not implemented
 }

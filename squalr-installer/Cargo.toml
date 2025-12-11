@@ -11,6 +11,8 @@ binary-mode = []
 
 [dependencies]
 squalr-engine = { path = "../squalr-engine" }
+slint-mvvm = { path = "../slint-mvvm" }
+slint-mvvm-macros = { path = "../slint-mvvm-macros" }
 log = { version = ">=0.4.27" }
 slint = { version = "=1.11.0", default-features = false, features = ["accessibility", "backend-winit", "compat-1-2", "renderer-software", "std"] }
 

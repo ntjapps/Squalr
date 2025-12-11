@@ -55,9 +55,9 @@ Some long term ambitions are to integrate:
 - [X] String scans
 - [X] Struct viewer
 - [X] Dockable window system
-- [ ] Struct scans
-- [ ] Pointer scans
-- [ ] Project system
+- [X] Struct scans
+- [X] Pointer scans
+- [X] Project system
 
 ## Architectural Overview
 

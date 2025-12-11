@@ -3,8 +3,10 @@ use squalr_engine::squalr_engine::SqualrEngine;
 use squalr_gui::view_models::main_window::main_window_view_model::MainWindowViewModel;
 
 // On a rooted device, the unprivileged GUI must spawn a privileged CLI app, so it is bundled into the GUI.
-static SQUALR_CLI: &[u8] = include_bytes!(concat!(env!("OUT_DIR"), "/../../../squalr-cli"));
+// TODO: This requires building squalr-cli first and is currently disabled
+// static SQUALR_CLI: &[u8] = include_bytes!(concat!(env!("OUT_DIR"), "/../../../squalr-cli"));
 
+#[cfg(target_os = "android")]
 #[unsafe(no_mangle)]
 fn android_main(app: slint::android::AndroidApp) {
     if let Err(error) = slint::android::init(app) {
@@ -12,10 +14,11 @@ fn android_main(app: slint::android::AndroidApp) {
         return;
     }
 
-    if let Err(error) = unpack_cli() {
-        log::error!("Fatal error unpacking privileged cli: {}", error);
-        return;
-    }
+    // TODO: Re-enable CLI unpacking once build system is set up
+    // if let Err(error) = unpack_cli() {
+    //     log::error!("Fatal error unpacking privileged cli: {}", error);
+    //     return;
+    // }
 
     // Create an unprivileged engine host (on android, the privileged engine is spawned as a new process).
     let mut squalr_engine = match SqualrEngine::new(EngineMode::UnprivilegedHost) {
@@ -24,10 +27,7 @@ fn android_main(app: slint::android::AndroidApp) {
     };
 
     // Create and show the main window, which in turn will instantiate all dockable windows.
-    let _main_window_view = match MainWindowViewModel::new(squalr_engine.get_dependency_container_mut()) {
-        Ok(main_window_view) => main_window_view,
-        Err(error) => panic!("Fatal error creating Squalr GUI: {}", error),
-    };
+    MainWindowViewModel::register(squalr_engine.get_dependency_container());
 
     // Now that gui dependencies are registered, start the engine fully.
     squalr_engine.initialize();
@@ -41,6 +41,8 @@ fn android_main(app: slint::android::AndroidApp) {
     }
 }
 
+// TODO: Re-enable once CLI embedding is set up
+/*
 fn unpack_cli() -> std::io::Result<()> {
     use std::io::Write;
     use std::process::{Command, Stdio};
@@ -84,3 +86,4 @@ fn unpack_cli() -> std::io::Result<()> {
 
     Ok(())
 }
+*/
