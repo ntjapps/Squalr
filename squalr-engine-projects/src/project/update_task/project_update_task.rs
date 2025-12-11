@@ -56,7 +56,7 @@ impl ProjectUpdateTask {
                 return;
             }
         };
-        let opened_process_guard = match opened_process.read() {
+        let _opened_process_guard = match opened_process.read() {
             Ok(guard) => guard,
             Err(error) => {
                 log::error!("Failed to acquire read lock on process info for project updates: {}", error);
@@ -65,7 +65,7 @@ impl ProjectUpdateTask {
             }
         };
         let project_item_type_registry = registries.get_project_item_type_registry();
-        let project_item_type_registry_guard = match project_item_type_registry.read() {
+        let _project_item_type_registry_guard = match project_item_type_registry.read() {
             Ok(guard) => guard,
             Err(error) => {
                 log::error!("Failed to acquire write lock on FreezeListRegistry: {}", error);
@@ -73,7 +73,7 @@ impl ProjectUpdateTask {
                 return;
             }
         };
-        let engine_bindings_guard = match engine_bindings.write() {
+        let _engine_bindings_guard = match engine_bindings.write() {
             Ok(guard) => guard,
             Err(error) => {
                 log::error!("Failed to acquire write lock on EngineBindings: {}", error);
@@ -83,7 +83,7 @@ impl ProjectUpdateTask {
         };
 
         // Call tick on the project root, which will in turn recursively tick all project items.
-        if let Some(opened_project) = opened_project_guard.as_mut() {
+        if let Some(_opened_project) = opened_project_guard.as_mut() {
             /*
             let project_root = opened_project.get_project_root_mut();
 

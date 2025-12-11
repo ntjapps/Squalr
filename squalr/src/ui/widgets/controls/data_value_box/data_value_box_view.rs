@@ -73,8 +73,8 @@ impl<'lifetime> Widget for DataValueBoxView<'lifetime> {
         let font_id = theme.font_library.font_noto_sans.font_normal.clone();
         let down_arrow = &theme.icon_library.icon_handle_navigation_down_arrow_small;
         let anonymous_value = AnonymousValue::new(&self.display_value);
-        let DATA_TYPE_REGISTRY = SymbolRegistry::new();
-        let is_valid = DATA_TYPE_REGISTRY.validate_value(&self.validation_data_type, &anonymous_value);
+        let data_type_registry = SymbolRegistry::new();
+        let is_valid = data_type_registry.validate_value(&self.validation_data_type, &anonymous_value);
         let text_color = match is_valid {
             true => match self.display_value.get_display_value_type() {
                 DisplayValueType::Bool => theme.foreground,
@@ -213,7 +213,7 @@ impl<'lifetime> Widget for DataValueBoxView<'lifetime> {
                         popup_user_interface.spacing_mut().item_spacing = Vec2::ZERO;
                         popup_user_interface.set_min_width(self.width);
                         popup_user_interface.with_layout(Layout::top_down(Align::Min), |inner_user_interface| {
-                            let display_value_types = DATA_TYPE_REGISTRY.get_supported_display_value_types(&self.validation_data_type);
+                            let display_value_types = data_type_registry.get_supported_display_value_types(&self.validation_data_type);
 
                             for display_value_type in &display_value_types {
                                 if inner_user_interface

@@ -138,7 +138,7 @@ impl PointerScanExecutorTask {
         let snapshot_regions = statics_snapshot.get_snapshot_regions_mut();
 
         // Create a function that processes every snapshot region, from which we will grab the existing snapshot filters (previous results) to perform our next scan.
-        let snapshot_iterator = |snapshot_region: &mut SnapshotRegion| {
+        let snapshot_iterator = |_snapshot_region: &mut SnapshotRegion| {
             if cancellation_token.load(Ordering::SeqCst) {
                 return;
             }

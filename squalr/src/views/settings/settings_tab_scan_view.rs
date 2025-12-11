@@ -207,7 +207,7 @@ impl Widget for SettingsTabScanView {
                                 self.app_context.clone(),
                                 "x-byte aligned",
                                 None,
-                                |user_interface: &mut Ui, should_close: &mut bool| {
+                                |_user_interface: &mut Ui, _should_close: &mut bool| {
                                     //
                                 },
                             ));

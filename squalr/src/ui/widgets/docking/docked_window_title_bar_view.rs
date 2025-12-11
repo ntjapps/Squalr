@@ -39,7 +39,7 @@ impl Widget for DockedWindowTitleBarView {
         let docking_manager = &self.app_context.docking_manager;
 
         // Background highlight if this is the actively dragged window.
-        let background = if let Ok(docking_manager) = docking_manager.read() {
+        let background = if let Ok(_docking_manager) = docking_manager.read() {
             /*
             if docking_manager.active_dragged_window_id() == Some(&self.identifier) {
                 theme.selected_border
@@ -95,7 +95,7 @@ impl Widget for DockedWindowTitleBarView {
             allocated_size_rectangle.min,
             pos2(allocated_size_rectangle.max.x - 36.0, allocated_size_rectangle.max.y),
         );
-        let drag = user_interface.interact(drag_rect, Id::new(format!("dock_titlebar_{}", self.identifier)), Sense::click_and_drag());
+        let _drag = user_interface.interact(drag_rect, Id::new(format!("dock_titlebar_{}", self.identifier)), Sense::click_and_drag());
 
         /*
         if drag.drag_started() {

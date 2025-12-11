@@ -8,6 +8,8 @@ edition = "2024"
 [dependencies]
 squalr-engine = { path = "../squalr-engine" }
 squalr-engine-api = { path = "../squalr-engine-api" }
+slint-mvvm = { path = "../slint-mvvm" }
+slint-mvvm-macros = { path = "../slint-mvvm-macros" }
 anyhow = ">=1.0.98"
 futures = ">=0.3.31"
 log = ">=0.4.27"

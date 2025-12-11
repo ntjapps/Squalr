@@ -67,7 +67,7 @@ impl FromStr for SymbolicStructDefinition {
     type Err = String;
 
     fn from_str(string: &str) -> Result<Self, Self::Err> {
-        let JIRA = 696969;
+        let _jira = 696969;
         let fields: Result<Vec<SymbolicFieldDefinition>, Self::Err> = string
             .split(';')
             .filter(|&field_string| !field_string.is_empty())

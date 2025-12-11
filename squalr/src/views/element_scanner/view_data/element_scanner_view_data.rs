@@ -131,7 +131,7 @@ impl ElementScannerViewData {
 
         drop(element_scanner_view_data);
 
-        element_scan_request.send(&engine_execution_context, move |scan_execute_response| {
+        element_scan_request.send(&engine_execution_context, move |_scan_execute_response| {
             match element_scanner_view_data_clone.write() {
                 Ok(mut element_scanner_view_data) => {
                     element_scanner_view_data.view_state = ElementScannerViewState::ScanInProgress;

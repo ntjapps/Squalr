@@ -1,7 +1,7 @@
 use crate::memory_reader::memory_reader_trait::IMemoryReader;
-use squalr_engine_common::dynamic_struct::dynamic_struct::DynamicStruct;
-use squalr_engine_processes::process_info::OpenedProcessInfo;
-use std::os::raw::c_void;
+use squalr_engine_api::structures::data_values::data_value::DataValue;
+use squalr_engine_api::structures::processes::opened_process_info::OpenedProcessInfo;
+use squalr_engine_api::structures::structs::valued_struct::ValuedStruct;
 
 pub struct LinuxMemoryReader;
 
@@ -14,18 +14,27 @@ impl LinuxMemoryReader {
 impl IMemoryReader for LinuxMemoryReader {
     fn read(
         &self,
-        process_info: &OpenedProcessInfo,
-        address: u64,
-        dynamic_struct: &mut DynamicStruct,
+        _process_info: &OpenedProcessInfo,
+        _address: u64,
+        _data_value: &mut DataValue,
+    ) -> bool {
+        false
+    }
+
+    fn read_struct(
+        &self,
+        _process_info: &OpenedProcessInfo,
+        _address: u64,
+        _valued_struct: &mut ValuedStruct,
     ) -> bool {
         false
     }
 
     fn read_bytes(
         &self,
-        process_info: &OpenedProcessInfo,
-        address: u64,
-        values: &mut [u8],
+        _process_info: &OpenedProcessInfo,
+        _address: u64,
+        _values: &mut [u8],
     ) -> bool {
         false
     }

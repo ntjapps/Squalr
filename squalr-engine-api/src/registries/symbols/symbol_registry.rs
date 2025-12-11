@@ -56,16 +56,18 @@ impl SymbolRegistry {
         &self.symbolic_struct_registry
     }
 
+    #[allow(dead_code)]
     fn register_data_type(
         &mut self,
-        data_type: Arc<dyn DataType>,
+        _data_type: Arc<dyn DataType>,
     ) {
         // JIRA
     }
 
+    #[allow(dead_code)]
     fn unregister_data_type(
         &mut self,
-        data_type: Arc<dyn DataType>,
+        _data_type: Arc<dyn DataType>,
     ) {
         // JIRA
     }
