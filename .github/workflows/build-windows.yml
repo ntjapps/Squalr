@@ -23,7 +23,19 @@ jobs:
     - name: Install cross-compilation dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y mingw-w64
+        sudo apt-get install -y \
+          mingw-w64 \
+          gcc-mingw-w64-x86-64 \
+          g++-mingw-w64-x86-64
+    
+    - name: Configure cargo for cross-compilation
+      run: |
+        mkdir -p ~/.cargo
+        cat >> ~/.cargo/config.toml << EOF
+        [target.x86_64-pc-windows-gnu]
+        linker = "x86_64-w64-mingw32-gcc"
+        ar = "x86_64-w64-mingw32-ar"
+        EOF
         
     - name: Cache cargo registry
       uses: actions/cache@v4
