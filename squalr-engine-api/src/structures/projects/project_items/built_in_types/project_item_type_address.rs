@@ -1,8 +1,5 @@
-use crate::commands::engine_command_request::EngineCommandRequest;
-use crate::commands::memory::read::memory_read_request::MemoryReadRequest;
 use crate::engine::engine_api_priviliged_bindings::EngineApiPrivilegedBindings;
 use crate::registries::registries::Registries;
-use crate::structures::memory::pointer::Pointer;
 use crate::structures::processes::opened_process_info::OpenedProcessInfo;
 use crate::structures::projects::project_items::project_item_ref::ProjectItemRef;
 use crate::structures::structs::symbolic_struct_ref::SymbolicStructRef;
@@ -13,7 +10,6 @@ use crate::structures::{
     structs::valued_struct_field::ValuedStructFieldNode,
 };
 use serde::{Deserialize, Serialize};
-use std::ops::Deref;
 use std::path::Path;
 use std::sync::{Arc, RwLock};
 
@@ -27,9 +23,9 @@ impl ProjectItemType for ProjectItemTypeAddress {
 
     fn on_activated_changed(
         &self,
-        engine_bindings: &Arc<RwLock<dyn EngineApiPrivilegedBindings>>,
-        registries: &Registries,
-        project_item: &ProjectItemRef,
+        _engine_bindings: &Arc<RwLock<dyn EngineApiPrivilegedBindings>>,
+        _registries: &Registries,
+        _project_item: &ProjectItemRef,
     ) {
         /*
         let address = ProjectItemTypeAddress::get_field_address(project_item);

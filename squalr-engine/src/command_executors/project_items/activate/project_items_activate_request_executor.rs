@@ -18,9 +18,9 @@ impl EngineCommandRequestExecutor for ProjectItemsActivateRequest {
             .write()
         {
             Ok(mut project_manager) => {
-                if let Some(project_manager) = project_manager.as_mut() {
+                if let Some(_project_manager) = project_manager.as_mut() {
                     for project_item_path in &self.project_item_paths {
-                        let project_item_path = Path::new(&project_item_path);
+                        let _project_item_path = Path::new(&project_item_path);
 
                         /*
                         if let Some(project_item) = project_manager.find_project_item_mut(project_item_path) {

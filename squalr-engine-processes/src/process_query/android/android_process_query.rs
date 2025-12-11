@@ -1,12 +1,13 @@
-use crate::process_info::{Bitness, OpenedProcessInfo, ProcessIcon, ProcessInfo};
 use crate::process_query::android::android_process_monitor::AndroidProcessMonitor;
 use crate::process_query::process_query_options::ProcessQueryOptions;
 use crate::process_query::process_queryer::ProcessQueryer;
 use image::ImageReader;
 use once_cell::sync::Lazy;
 use regex::bytes::Regex;
-use squalr_engine_common::logging::log_level::LogLevel;
-use squalr_engine_common::logging::logger::Logger;
+use squalr_engine_api::structures::memory::bitness::Bitness;
+use squalr_engine_api::structures::processes::opened_process_info::OpenedProcessInfo;
+use squalr_engine_api::structures::processes::process_icon::ProcessIcon;
+use squalr_engine_api::structures::processes::process_info::ProcessInfo;
 use std::collections::HashMap;
 use std::fs;
 use std::fs::File;
@@ -60,7 +61,7 @@ impl AndroidProcessQuery {
             let package_map_cache = match PACKAGE_CACHE.read() {
                 Ok(cache) => cache,
                 Err(_) => {
-                    Logger::log(LogLevel::Error, "Failed to acquire PACKAGE_CACHE read lock.", None);
+// Logger::log(LogLevel::Error, "Failed to acquire PACKAGE_CACHE read lock.", None);
                     return;
                 }
             };
@@ -73,30 +74,30 @@ impl AndroidProcessQuery {
         let mut package_map_cache = match PACKAGE_CACHE.write() {
             Ok(cache) => cache,
             Err(_) => {
-                Logger::log(LogLevel::Error, "Failed to acquire PACKAGE_CACHE write lock.", None);
+// Logger::log(LogLevel::Error, "Failed to acquire PACKAGE_CACHE write lock.", None);
                 return;
             }
         };
 
-        Logger::log(LogLevel::Info, "Scanning packages.xml...", None);
+// Logger::log(LogLevel::Info, "Scanning packages.xml...", None);
         let file = match File::open("/data/system/packages.xml") {
             Ok(file) => file,
             Err(error) => {
-                Logger::log(LogLevel::Error, &format!("Error opening packages.xml: {}", error), None);
+// Logger::log(LogLevel::Error, &format!("Error opening packages.xml: {}", error), None);
                 return;
             }
         };
 
         let mut buffer = vec![];
         if let Err(error) = BufReader::new(file).read_to_end(&mut buffer) {
-            Logger::log(LogLevel::Error, &format!("Error reading packages.xml: {}", error), None);
+// Logger::log(LogLevel::Error, &format!("Error reading packages.xml: {}", error), None);
             return;
         }
 
         let regex = match Regex::new(r"/data/app(?:/[^/]+)?/(?P<package_name>[a-zA-Z0-9_.]+)-[^/]+/") {
             Ok(regex) => regex,
             Err(error) => {
-                Logger::log(LogLevel::Error, &format!("Failed to compile regex: {}", error), None);
+// Logger::log(LogLevel::Error, &format!("Failed to compile regex: {}", error), None);
                 return;
             }
         };
@@ -112,7 +113,7 @@ impl AndroidProcessQuery {
             }
         }
 
-        Logger::log(LogLevel::Info, &format!("Found {} packages.", package_map_cache.len()), None);
+// Logger::log(LogLevel::Info, &format!("Found {} packages.", package_map_cache.len()), None);
     }
 
     fn get_apk_path(package_name: &str) -> Option<String> {
@@ -163,7 +164,7 @@ impl ProcessQueryer for AndroidProcessQuery {
             .write()
             .map_err(|error| format!("Failed to acquire process monitor lock: {}", error))?;
 
-        Logger::log(LogLevel::Error, "Monitoring system processes...", None);
+// Logger::log(LogLevel::Error, "Monitoring system processes...", None);
         monitor.start_monitoring();
 
         Ok(())
@@ -199,7 +200,7 @@ impl ProcessQueryer for AndroidProcessQuery {
         let process_monitor_guard = match PROCESS_MONITOR.read() {
             Ok(guard) => guard,
             Err(error) => {
-                Logger::log(LogLevel::Error, &format!("Failed to acquire process monitor lock: {}", error), None);
+// Logger::log(LogLevel::Error, &format!("Failed to acquire process monitor lock: {}", error), None);
                 return Vec::new();
             }
         };
@@ -210,7 +211,7 @@ impl ProcessQueryer for AndroidProcessQuery {
         let all_processes_guard = match all_processes_lock.read() {
             Ok(guard) => guard,
             Err(error) => {
-                Logger::log(LogLevel::Error, &format!("Failed to acquire process read lock: {}", error), None);
+// Logger::log(LogLevel::Error, &format!("Failed to acquire process read lock: {}", error), None);
                 return Vec::new();
             }
         };
@@ -218,7 +219,7 @@ impl ProcessQueryer for AndroidProcessQuery {
         let zygote_processes_guard = match zygote_processes_lock.read() {
             Ok(guard) => guard,
             Err(error) => {
-                Logger::log(LogLevel::Error, &format!("Failed to acquire zygote process read lock: {}", error), None);
+// Logger::log(LogLevel::Error, &format!("Failed to acquire zygote process read lock: {}", error), None);
                 return Vec::new();
             }
         };

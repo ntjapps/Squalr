@@ -9,7 +9,7 @@ impl EngineCommandRequestExecutor for ProjectItemsListRequest {
 
     fn execute(
         &self,
-        engine_privileged_state: &Arc<EnginePrivilegedState>,
+        _engine_privileged_state: &Arc<EnginePrivilegedState>,
     ) -> <Self as EngineCommandRequestExecutor>::ResponseType {
         /*
         match engine_privileged_state

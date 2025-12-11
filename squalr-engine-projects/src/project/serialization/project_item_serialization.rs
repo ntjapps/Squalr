@@ -1,9 +1,7 @@
 use crate::project::serialization::serializable_project_file::SerializableProjectFile;
-use squalr_engine_api::structures::projects::project_items::{
-    built_in_types::project_item_type_directory::ProjectItemTypeDirectory, project_item::ProjectItem,
-};
+use squalr_engine_api::structures::projects::project_items::project_item::ProjectItem;
 use std::{
-    fs::{self, File},
+    fs::{self},
     path::Path,
 };
 

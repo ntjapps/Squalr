@@ -1,8 +1,8 @@
-use crate::process_info::ProcessIcon;
-use crate::process_info::{OpenedProcessInfo, ProcessInfo};
-use crate::process_query::process_queryer::ProcessQueryOptions;
+use crate::process_query::process_query_options::ProcessQueryOptions;
 use crate::process_query::process_queryer::ProcessQueryer;
-use std::sync::{Arc, RwLock};
+use squalr_engine_api::structures::processes::opened_process_info::OpenedProcessInfo;
+use squalr_engine_api::structures::processes::process_icon::ProcessIcon;
+use squalr_engine_api::structures::processes::process_info::ProcessInfo;
 use sysinfo::{Pid, System};
 
 pub struct MacosProcessQuery {
@@ -14,28 +14,35 @@ impl MacosProcessQuery {
         MacosProcessQuery { system: System::new_all() }
     }
 
-    fn is_process_windowed(process_id: &Pid) -> bool {
+    #[allow(dead_code)]
+    fn is_process_windowed(_process_id: &Pid) -> bool {
         false
     }
 
-    fn get_icon(process_id: &Pid) -> Option<ProcessIcon> {
+    #[allow(dead_code)]
+    fn get_icon(_process_id: &Pid) -> Option<ProcessIcon> {
         None
     }
 }
 
 impl ProcessQueryer for MacosProcessQuery {
-    fn open_process(process_info: &ProcessInfo) -> Result<OpenedProcessInfo, String> {
+    fn start_monitoring() -> Result<(), String> {
+        Ok(())
+    }
+
+    fn stop_monitoring() -> Result<(), String> {
+        Ok(())
+    }
+
+    fn open_process(_process_info: &ProcessInfo) -> Result<OpenedProcessInfo, String> {
         Err("Not implemented".into())
     }
 
-    fn close_process(handle: u64) -> Result<(), String> {
+    fn close_process(_handle: u64) -> Result<(), String> {
         Err("Not implemented".into())
     }
 
-    fn get_processes(
-        options: ProcessQueryOptions,
-        system: Arc<RwLock<System>>,
-    ) -> Vec<ProcessInfo> {
+    fn get_processes(_options: ProcessQueryOptions) -> Vec<ProcessInfo> {
         vec![]
     }
 }

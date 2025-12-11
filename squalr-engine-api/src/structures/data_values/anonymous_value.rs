@@ -29,7 +29,7 @@ impl AnonymousValue {
         let anonymous_value_string = display_value.get_display_string().to_string();
 
         match display_value.get_container_type() {
-            ContainerType::Array(length) => {
+            ContainerType::Array(_length) => {
                 // Split the input string into separate parts for the array.
                 let anonymous_value_container = match display_value.get_display_value_type() {
                     DisplayValueType::Binary => AnonymousValueContainer::BinaryValue(anonymous_value_string),

@@ -4,8 +4,8 @@ use std::path::Path;
 
 impl SerializableProjectFile for Project {
     fn load_from_path(directory: &Path) -> anyhow::Result<Self> {
-        let project_info = ProjectInfo::load_from_path(&directory.join(Project::PROJECT_FILE))?;
-        let project_root = ProjectItem::load_from_path(&directory.join(Project::PROJECT_DIR))?;
+        let _project_info = ProjectInfo::load_from_path(&directory.join(Project::PROJECT_FILE))?;
+        let _project_root = ProjectItem::load_from_path(&directory.join(Project::PROJECT_DIR))?;
 
         // Ok(Project::new(project_info, project_root))
         Err(anyhow::anyhow!("load_from_path disabled for now"))
