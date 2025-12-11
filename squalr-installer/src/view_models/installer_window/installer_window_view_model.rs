@@ -98,13 +98,13 @@ impl InstallerWindowViewModel {
         }
     }
     fn on_minimize(view_binding: ViewBinding<InstallerWindowView>) {
-        view_binding.execute_on_ui_thread(|installer_window_view, _| {
+        view_binding.execute_on_ui_thread(|installer_window_view: InstallerWindowView, _| {
             installer_window_view.window().set_minimized(true);
         });
     }
 
     fn on_maximize(view_binding: ViewBinding<InstallerWindowView>) {
-        view_binding.execute_on_ui_thread(|installer_window_view, _| {
+        view_binding.execute_on_ui_thread(|installer_window_view: InstallerWindowView, _| {
             let window = installer_window_view.window();
             window.set_maximized(!window.is_maximized());
         });
@@ -117,7 +117,7 @@ impl InstallerWindowViewModel {
     }
 
     fn on_double_clicked(view_binding: ViewBinding<InstallerWindowView>) {
-        view_binding.execute_on_ui_thread(|installer_window_view, _| {
+        view_binding.execute_on_ui_thread(|installer_window_view: InstallerWindowView, _| {
             let window = installer_window_view.window();
             window.set_maximized(!window.is_maximized());
         });
@@ -128,7 +128,7 @@ impl InstallerWindowViewModel {
         delta_x: i32,
         delta_y: i32,
     ) {
-        view_binding.execute_on_ui_thread(move |installer_window_view, _| {
+        view_binding.execute_on_ui_thread(move |installer_window_view: InstallerWindowView, _| {
             let window = installer_window_view.window();
             let mut position = window.position();
             position.x += delta_x;
