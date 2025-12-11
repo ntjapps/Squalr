@@ -7,10 +7,7 @@ use squalr_engine_api::{
     commands::{engine_command_request::EngineCommandRequest, settings::memory::list::memory_settings_list_request::MemorySettingsListRequest},
     structures::settings::memory_settings::MemorySettings,
 };
-use std::{
-    rc::Rc,
-    sync::{Arc, RwLock},
-};
+use std::sync::{Arc, RwLock};
 
 #[derive(Clone)]
 pub struct SettingsTabMemoryView {

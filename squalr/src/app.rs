@@ -19,7 +19,7 @@ impl App {
     pub fn new(
         context: &Context,
         engine_execution_context: Arc<EngineExecutionContext>,
-        dependency_container: &DependencyContainer,
+        _dependency_container: &DependencyContainer,
         app_title: String,
     ) -> Self {
         let theme = Arc::new(Theme::new(context));

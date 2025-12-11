@@ -4,6 +4,7 @@ use std::sync::Arc;
 
 #[derive(Clone)]
 pub struct PointerScannerView {
+    #[allow(dead_code)]
     app_context: Arc<AppContext>,
 }
 
@@ -18,7 +19,7 @@ impl Widget for PointerScannerView {
         self,
         user_interface: &mut Ui,
     ) -> Response {
-        let (allocated_size_rectangle, response) = user_interface.allocate_exact_size(user_interface.available_size(), Sense::empty());
+        let (_allocated_size_rectangle, response) = user_interface.allocate_exact_size(user_interface.available_size(), Sense::empty());
 
         response
     }

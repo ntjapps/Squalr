@@ -171,7 +171,7 @@ impl ElementScannerResultsViewData {
             anonymous_value,
         };
 
-        scan_results_set_property_request.send(&engine_execution_context, move |scan_results_set_property_response| {
+        scan_results_set_property_request.send(&engine_execution_context, move |_scan_results_set_property_response| {
             // JIRA: TODO
         });
     }
@@ -325,7 +325,7 @@ impl ElementScannerResultsViewData {
 
     fn set_scan_result_selection_start(
         element_scanner_results_view_data: Dependency<Self>,
-        engine_execution_context: Arc<EngineExecutionContext>,
+        _engine_execution_context: Arc<EngineExecutionContext>,
         scan_result_collection_start_index: i32,
     ) {
         let mut element_scanner_results_view_data = match element_scanner_results_view_data.write() {
@@ -355,9 +355,9 @@ impl ElementScannerResultsViewData {
     }
 
     fn set_scan_result_selection_end(
-        element_scanner_results_view_data: Dependency<Self>,
-        engine_execution_context: Arc<EngineExecutionContext>,
-        scan_result_collection_end_index: i32,
+        _element_scanner_results_view_data: Dependency<Self>,
+        _engine_execution_context: Arc<EngineExecutionContext>,
+        _scan_result_collection_end_index: i32,
     ) {
         /*
         self.selection_index_end = scan_result_collection_end_index;
@@ -426,8 +426,8 @@ impl ElementScannerResultsViewData {
     }
 
     fn toggle_selected_scan_results_frozen(
-        element_scanner_results_view_data: Dependency<Self>,
-        engine_execution_context: Arc<EngineExecutionContext>,
+        _element_scanner_results_view_data: Dependency<Self>,
+        _engine_execution_context: Arc<EngineExecutionContext>,
     ) {
         /*
         let scan_results = self.collect_selected_scan_result_bases();
@@ -442,7 +442,7 @@ impl ElementScannerResultsViewData {
 
     fn collect_selected_scan_result_refs(
         element_scanner_results_view_data: Dependency<Self>,
-        engine_execution_context: Arc<EngineExecutionContext>,
+        _engine_execution_context: Arc<EngineExecutionContext>,
     ) -> Vec<ScanResultRef> {
         Self::collect_selected_scan_results(element_scanner_results_view_data)
             .into_iter()
@@ -463,7 +463,7 @@ impl ElementScannerResultsViewData {
 
     fn collect_selected_scan_result_bases(
         element_scanner_results_view_data: Dependency<Self>,
-        engine_execution_context: Arc<EngineExecutionContext>,
+        _engine_execution_context: Arc<EngineExecutionContext>,
     ) -> Vec<ScanResultBase> {
         Self::collect_selected_scan_results(element_scanner_results_view_data)
             .into_iter()
@@ -512,7 +512,7 @@ impl ElementScannerResultsViewData {
 
     fn collect_scan_result_bases_by_indicies(
         element_scanner_results_view_data: Dependency<Self>,
-        engine_execution_context: Arc<EngineExecutionContext>,
+        _engine_execution_context: Arc<EngineExecutionContext>,
         local_scan_result_indices: &[i32],
     ) -> Vec<ScanResultBase> {
         let element_scanner_results_view_data = match element_scanner_results_view_data.read() {
