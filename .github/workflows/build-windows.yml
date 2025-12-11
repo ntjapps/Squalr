@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     permissions:
       contents: read
     
@@ -19,25 +19,6 @@ jobs:
       
     - name: Install Rust toolchain
       uses: dtolnay/rust-toolchain@stable
-      with:
-        targets: x86_64-pc-windows-gnu
-        
-    - name: Install cross-compilation dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y \
-          mingw-w64 \
-          gcc-mingw-w64-x86-64 \
-          g++-mingw-w64-x86-64
-    
-    - name: Configure cargo for cross-compilation
-      run: |
-        mkdir -p ~/.cargo
-        cat >> ~/.cargo/config.toml << EOF
-        [target.x86_64-pc-windows-gnu]
-        linker = "x86_64-w64-mingw32-gcc"
-        ar = "x86_64-w64-mingw32-ar"
-        EOF
         
     - name: Cache cargo registry
       uses: actions/cache@v4
@@ -64,31 +45,32 @@ jobs:
           ${{ runner.os }}-target-
     
     - name: Build squalr for Windows
-      run: cargo build --release --target x86_64-pc-windows-gnu -p squalr
+      run: cargo build --release -p squalr
       
     - name: Build squalr-installer for Windows
-      run: cargo build --release --target x86_64-pc-windows-gnu -p squalr-installer
+      run: cargo build --release -p squalr-installer
       continue-on-error: true
       
     - name: Build squalr-cli for Windows
-      run: cargo build --release --target x86_64-pc-windows-gnu -p squalr-cli
+      run: cargo build --release -p squalr-cli
       continue-on-error: true
       
     - name: Prepare artifacts
+      shell: pwsh
       run: |
-        mkdir -p artifacts
+        New-Item -ItemType Directory -Force -Path artifacts
         # Copy main executables if they exist
-        if [ -f target/x86_64-pc-windows-gnu/release/squalr.exe ]; then
-          cp target/x86_64-pc-windows-gnu/release/squalr.exe artifacts/
-        fi
-        if [ -f target/x86_64-pc-windows-gnu/release/squalr-installer.exe ]; then
-          cp target/x86_64-pc-windows-gnu/release/squalr-installer.exe artifacts/
-        fi
-        if [ -f target/x86_64-pc-windows-gnu/release/squalr-cli.exe ]; then
-          cp target/x86_64-pc-windows-gnu/release/squalr-cli.exe artifacts/
-        fi
+        if (Test-Path "target/release/squalr.exe") {
+          Copy-Item "target/release/squalr.exe" "artifacts/"
+        }
+        if (Test-Path "target/release/squalr-installer.exe") {
+          Copy-Item "target/release/squalr-installer.exe" "artifacts/"
+        }
+        if (Test-Path "target/release/squalr-cli.exe") {
+          Copy-Item "target/release/squalr-cli.exe" "artifacts/"
+        }
         # List what was built
-        ls -lh artifacts/
+        Get-ChildItem artifacts
         
     - name: Upload Windows executables
       uses: actions/upload-artifact@v4
