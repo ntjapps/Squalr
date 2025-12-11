@@ -13,6 +13,9 @@ members = [
     "squalr-tui",
     "squalr-installer",
     "squalr",
+    "squalr-gui",
+    "slint-mvvm",
+    "slint-mvvm-macros",
 ]
 resolver = "3"
 
