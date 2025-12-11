@@ -1,6 +1,5 @@
 use proc_macro::TokenStream;
 use quote::quote;
-use syn::{parse_macro_input, Block, Ident, Token, parse::{Parse, ParseStream}, punctuated::Punctuated};
 
 /// Macro to create view bindings for view models
 /// 
@@ -30,6 +29,10 @@ pub fn create_view_bindings(_input: TokenStream) -> TokenStream {
 /// ```
 #[proc_macro]
 pub fn create_view_model_collection(_input: TokenStream) -> TokenStream {
-    // Simplified version that expands to nothing
-    TokenStream::from(quote! {})
+    // Return a stub ViewCollectionBinding
+    TokenStream::from(quote! {
+        slint_mvvm::view_collection_binding::ViewCollectionBinding::new(
+            std::sync::Arc::new(slint::VecModel::default())
+        )
+    })
 }

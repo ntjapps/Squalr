@@ -21,21 +21,22 @@ fn main() {
         Err(error) => panic!("Fatal error initializing Squalr engine: {}", error),
     };
 
+    // TODO: Re-enable logging subscription once subscribe_to_logs is implemented
     // Hook into engine logging for the cli to display.
-    let _cli_log_listener = CliLogListener::new(
-        match squalr_engine
-            .get_engine_execution_context()
-            .as_ref()
-            .unwrap_or_else(|| panic!("Engine context failed to initialize."))
-            .get_logger()
-            .subscribe_to_logs()
-        {
-            Ok(listener) => listener,
-            Err(error) => {
-                panic!("Fatal error hooking into engine log events: {}", error);
-            }
-        },
-    );
+    // let _cli_log_listener = CliLogListener::new(
+    //     match squalr_engine
+    //         .get_engine_execution_context()
+    //         .as_ref()
+    //         .unwrap_or_else(|| panic!("Engine context failed to initialize."))
+    //         .get_logger()
+    //         .subscribe_to_logs()
+    //     {
+    //         Ok(listener) => listener,
+    //         Err(error) => {
+    //             panic!("Fatal error hooking into engine log events: {}", error);
+    //         }
+    //     },
+    // );
 
     // Start the log event sending now that both the CLI and engine are ready to receive log messages.
     squalr_engine.initialize();
