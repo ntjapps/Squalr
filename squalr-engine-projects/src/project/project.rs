@@ -17,6 +17,7 @@ pub struct Project {
 
     // The tree structure for the project, with all parent relations.
     #[serde(skip)]
+    #[allow(dead_code)]
     project_tree_root: ProjectTree,
 
     // The full list of all project items. These are not arranged heirarchically, as the tree is responsible for that.

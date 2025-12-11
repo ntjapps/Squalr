@@ -13,6 +13,7 @@ impl LinuxMemoryQueryer {
         LinuxMemoryQueryer
     }
 
+    #[allow(dead_code)]
     fn get_protection_flags(
         &self,
         _protection: &MemoryProtectionEnum,

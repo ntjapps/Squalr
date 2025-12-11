@@ -6,10 +6,12 @@ use squalr_engine_api::structures::processes::process_info::ProcessInfo;
 use sysinfo::{Pid, System};
 
 pub struct MacosProcessQuery {
+    #[allow(dead_code)]
     system: System,
 }
 
 impl MacosProcessQuery {
+    #[allow(dead_code)]
     pub fn new() -> Self {
         MacosProcessQuery { system: System::new_all() }
     }
