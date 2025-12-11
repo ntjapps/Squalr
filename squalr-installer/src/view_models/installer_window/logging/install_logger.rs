@@ -52,7 +52,7 @@ impl Log for InstallLogger {
         // Update the UI
         let current_logs = self.current_logs.clone();
         self.view_binding
-            .execute_on_ui_thread(move |installer_window_view, _view_binding| {
+            .execute_on_ui_thread(move |installer_window_view: InstallerWindowView, _view_binding| {
                 if let Ok(logs) = current_logs.lock() {
                     let installer_view = installer_window_view.global::<InstallerViewModelBindings>();
                     installer_view.set_installer_logs(logs.clone().into());

@@ -1,0 +1,81 @@
+name: Build Windows Executable
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Install Rust toolchain
+      uses: dtolnay/rust-toolchain@nightly
+        
+    - name: Cache cargo registry
+      uses: actions/cache@v4
+      with:
+        path: ~/.cargo/registry
+        key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-cargo-registry-
+          
+    - name: Cache cargo index
+      uses: actions/cache@v4
+      with:
+        path: ~/.cargo/git
+        key: ${{ runner.os }}-cargo-git-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-cargo-git-
+          
+    - name: Cache target directory
+      uses: actions/cache@v4
+      with:
+        path: target
+        key: ${{ runner.os }}-target-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-target-
+    
+    - name: Build squalr for Windows
+      run: cargo build --release -p squalr
+      
+    - name: Build squalr-installer for Windows
+      run: cargo build --release -p squalr-installer
+      continue-on-error: true
+      
+    - name: Build squalr-cli for Windows
+      run: cargo build --release -p squalr-cli
+      continue-on-error: true
+      
+    - name: Prepare artifacts
+      shell: pwsh
+      run: |
+        New-Item -ItemType Directory -Force -Path artifacts
+        # Copy main executables if they exist
+        if (Test-Path "target/release/squalr.exe") {
+          Copy-Item "target/release/squalr.exe" "artifacts/"
+        }
+        if (Test-Path "target/release/squalr-installer.exe") {
+          Copy-Item "target/release/squalr-installer.exe" "artifacts/"
+        }
+        if (Test-Path "target/release/squalr-cli.exe") {
+          Copy-Item "target/release/squalr-cli.exe" "artifacts/"
+        }
+        # List what was built
+        Get-ChildItem artifacts
+        
+    - name: Upload Windows executables
+      uses: actions/upload-artifact@v4
+      with:
+        name: squalr-windows-x86_64
+        path: artifacts/*.exe
+        if-no-files-found: error
+        retention-days: 90
